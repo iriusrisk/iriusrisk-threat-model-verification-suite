@@ -11,7 +11,9 @@ RUN apk add --no-cache python3 git py3-pip nano \
 && pip3 install -r requirements.txt
 
 WORKDIR threat
-CMD find /volume/. -name \*.py -exec cp {} ./tests \; && pytest --junitxml=/volume/result.xml
+CMD find /volume/. -name \*.py -exec cp {} ./tests \; \
+&& find /volume/. -name \*.yaml -exec cp {} . \; \
+&& pytest --junitxml=/volume/result.xml
 
 
 

@@ -10,8 +10,7 @@ class TestIriusRisk(unittest.TestCase):
         self.api_token, self.config, self.product_ref, self.api_instance = setup()
 
     def setUp(self):
-      self.test_config = check(unittest.TestCase.id(self).rsplit(".")[-1], self.config)
-      print(self.test_config)
+        self.test_config = check(unittest.TestCase.id(self).rsplit(".")[-1], self.config)
 
     def test_template(self):
         # TODO: Do test
@@ -19,10 +18,12 @@ class TestIriusRisk(unittest.TestCase):
         # Failures are marked with pytest.fail("message")
         # Skipped tests are marked with pytest.skip("message")
 
-    def test_product_risk_is_very_high(self):
-        riskThreshold = self.test_config["variables"]["RISK_THRESHOLD"]
-        if not riskThreshold:
-            pytest.skip("No risk threshold")
+    def test_residual_risk_over_risk_threshold(self):
+        try:
+            riskThreshold = self.test_config["variables"]["RISK_THRESHOLD"]
+        except KeyError:
+            print("Using default risk threshold: 50")
+            riskThreshold = 50
 
         risk_summary = self.api_instance.products_ref_risks_get(self.api_token, self.product_ref)
         if risk_summary.residual_risk > riskThreshold:

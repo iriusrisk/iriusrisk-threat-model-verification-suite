@@ -1,5 +1,4 @@
 import unittest
-import pytest
 from tests.config import setup, check
 
 
@@ -10,11 +9,10 @@ class TestCustom(unittest.TestCase):
         self.api_token, self.config, self.product_ref, self.api_instance = setup()
 
     def setUp(self):
-      self.test_config = check(unittest.TestCase.id(self).rsplit(".")[-1], self.config)
-      print(self.test_config)
+        self.test_config = check(unittest.TestCase.id(self).rsplit(".")[-1], self.config)
 
     # From here you can write your own tests
-    def test_edit_name(self):
+    def test_custom_test(self):
         # TODO: Do test
         pass
         # Failures are marked with pytest.fail("message")

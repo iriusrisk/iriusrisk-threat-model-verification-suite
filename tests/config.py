@@ -22,15 +22,12 @@ def setup():
     api_instance = iriusrisk_python_client_lib.ProductsApi(iriusrisk_python_client_lib.ApiClient())
     api_instance.api_client.configuration.host = configuration["server"]
 
-    # TODO: Remove this
-    api_token = "83890825-6ffb-4e57-a443-93c89559a44b"
-    api_instance.api_client.configuration.host = "http://172.28.16.1:8080/api/v1"
-
     # Testing connectivity
-    try:
-        api_instance.products_get(api_token)
-    except:
-        pytest.fail(f"No connectivity with {configuration['server']}")
+    if file is not "example.yaml":
+        try:
+            api_instance.products_get(api_token)
+        except:
+            pytest.fail(f"No connectivity with {configuration['server']}")
 
     return api_token, config, product_ref, api_instance
 

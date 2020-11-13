@@ -1,4 +1,4 @@
-server: http:/host:8080
+server: http://host:8080
 apiToken: 4aaf727b-1e55-417f-9ecc-45ab9426ea74
 productRef: test
 config:

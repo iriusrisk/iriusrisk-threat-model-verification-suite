@@ -107,7 +107,7 @@ pipelines:
 ## Customize tests
 
 In case you want to integrate custom tests users can use pytest to execute the suite.
-Make sure you have the required dependencies installed (python, pip, iriusrisk_python_client_lib)
+Make sure you have the required dependencies installed (python, pip, requirements.txt)
 
 Inside /tests there is an example of a custom test file. Please use this template to create your own content.
 

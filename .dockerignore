@@ -1,0 +1,6 @@
+/venv
+.gitignore
+README.md
+LICENSE
+*.xml
+/.pytest_cache

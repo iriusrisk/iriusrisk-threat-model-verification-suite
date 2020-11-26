@@ -1,0 +1,4 @@
+config:
+  - testName: test_residual_risk_over_risk_threshold
+    variables:
+      RISK_THRESHOLD: 75

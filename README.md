@@ -4,39 +4,83 @@ This project aims to help users to integrate IriusRisk in their CI/CD environmen
 
 ## Requirements
 
-Docker must be installed previously in order to create the image.
+Docker must be installed previously in order to pull the image. 
 ```
-docker pull iriusrisk-tmvs:1.0.0
+docker pull iriusrisk-tmvs
 ```
+You can pull the image previously or let Docker handle the pulling when running the container for the first time
 
 ## How to use
 
-Once the image is pulled users can run the following command in their automation servers (Jenkins, GoCD, etc.).
+This tool has been conceived to be as easy to configure as possible so there are three ways to use it:
 
-On Windows:
+### Option 1: Run one of our predefined configurations
+
+IriusRisk TMVS contains a set of predefined configurations that execute a set of our tests. These configurations are:
+* __risk__: tests related with risk rating analysis
+* other:
+
+You will need to pass the following parameters to the docker run command:
+* IRIUS_SERVER: IriusRisk instance server ([http|https]://\<host>:\<port>)
+* IRIUS_API_TOKEN: IriusRisk API token from an IriusRisk user.
+* PRODUCT_REF: IriusRisk threat model reference
+* CONFIG_FILE: one of the names of the above list.
+
+Example:
 ```
-docker run --rm -v c:/path/to/folder/with/yamls:/volume -e CONFIG_FILE=example.yaml iriusrisk-tmvs:1.0.0
-```
-On Linux:
-```
-docker run --rm -v /path/to/folder/with/yamls:/volume -e CONFIG_FILE=example.yaml iriusrisk-tmvs:1.0.0
+docker run --rm -e IRIUS_SERVER=<server> -e IRIUS_API_TOKEN=<token> -e PRODUCT_REF=<product_ref> -e CONFIG_FILE=risk iriusrisk-tmvs
 ```
 
-Note that "/path/to/folder/with/yamls" is a folder in the Docker host system and must be changed.
+### Option 2: Create and run your own configuration
+
+If our predefined configurations are not enough and you want to tune your own configurations you need to define a volume to pass the configuration file to the container. 
+
+```
+docker run --rm -v /path/to/yamls:/volume -e CONFIG_FILE=custom iriusrisk-tmvs
+```
+
+Note that "/path/to/yamls" is a folder in the Docker host system and must be changed.
 It is also mandatory to pass the name of the yaml file to execute with the CONFIG_FILE environment variable.
 User folder must be linked with /volume.
 
 __Example__: suppose that you have a folder called "/home/user/yamlFiles" that contains test1.yaml, test2.yaml and test3.yaml
 You can then run the following:
 ```
-docker run --rm -v /home/user/yamlFiles:/volume -e CONFIG_FILE=test1.yaml iriusrisk-tmvs:1.0.0
+docker run --rm -v /home/user/yamlFiles:/volume -e CONFIG_FILE=test1 iriusrisk-tmvs
 ```
+
+Please check [here](#yaml-configuration) to see how to configure the Yaml file.
+
+__Information for Windows users__: you may need to replace "/path/to/yamls" with "c:/path/to/yamls" or any other disk drive letter.
+
+
+### Option 3: Create your own tests
+
+In case you want to write your own tests you should download the repository directly.
+
+Ensure you have at least Python 3.7 installed as well as Pip before proceeding with the following steps:
+```
+# Download the IriusRisk Python client library
+git clone https://github.com/iriusrisk/iriusrisk-python-client-lib.git
+pip install iriusrisk-python-client-lib/iriusrisk-python-client-lib
+# Download the IriusRisk TMVS
+git clone https://github.com/iriusrisk/iriusrisk-threat-model-verification-suite.git
+# Install the requirements with pip
+cd iriusrisk-threat-model-verification-suite
+pip install -r requirements.txt
+# To execute the tests launch the following command
+pytest --junitxml=result.xml
+```
+You may want to change some of the steps if you want to use a virtual environment like venv.
+
+To create your tests you will find a template ready to be used called test_custom.py inside /tests.
+Keep in mind that this template uses config.py functions to avoid repeating configurations, so you should focus on create test functions using the variables inside self variable.
 
 
 
 ## Yaml configuration
 
-There is an example called example.yaml in which you can see how the format is:
+This is a configuration file example in which you can see how the format is:
 
 ```
 server: http://host:8080
@@ -46,33 +90,22 @@ config:
   - testName: test_residual_risk_over_risk_threshold
     variables:
       RISK_THRESHOLD: 70
-  - testName: test_template
+  - testName: test_custom_test
     variables:
-      MULTIPLE: DATA TYPES
-      a: 123                     # an integer
-      b: "123"                   # a string, disambiguated by quotes
-      c: 123.0                   # a float
-      d: !!float 123             # also a float via explicit data type prefixed by (!!)
-      e: !!str 123               # a string, disambiguated by explicit type
-      f: !!str Yes               # a string via explicit type
-      g: Yes                     # a boolean True (yaml1.1), string "Yes" (yaml1.2)
-      h: Yes we have No bananas  # a string, "Yes" and "No" disambiguated by context.
-      VARIABLES_CAN_BE_EMPTY:
-      ALSO_IT_IS_NOT_MANDATORY_TO_HAVE_VARIABLES_IN_A_TEST:
-  
+      PARAMETER: value
+  - testName: test_custom_test_without variables
+  - testName: test_custom_test_2
+    variables:
+      RISK_THRESHOLD: 70
 ```
-
 "server" and "apiToken" must be changed to the corresponding ones.
 Tests are executed for one project. Users must indicate the project reference in the "projectRef" parameter.
+"testName" parameters must be specified with the actual names of the tests.
 
-```
-docker run --rm -e CONFIG_FILE=example.yaml iriusrisk-tmvs:1.0.0
-```
-Remember! This is just an example that always will work. You have to configure a volume with option ```-v /path/to/folder/with/yamls:/volume``` as you saw before.
+Note that our predefined tests only have the "config" key because they assume the other parameters will come from environment variables.
 
 ## Available tests
 #### Version 1.0.0
-* __test_template__: example test, doesn't do anything
 * __test_residual_risk_over_risk_threshold__: outputs a list of products that exceed a risk threshold
   * RISK_THRESHOLD: number from 0 to 100. Default value is 50.
   
@@ -82,7 +115,7 @@ Remember! This is just an example that always will work. You have to configure a
 format_version: 9
 
 pipelines:
-  IriusRisk-Testing-Suite:
+  IriusRisk-TMVS:
     group: Development
     materials:
       mygit: 
@@ -100,19 +133,18 @@ pipelines:
                   arguments:
                    - -e
                    - -c
-                   - "docker run --rm -v /path/to/folder/with/yamls:/volume -e CONFIG_FILE=example.yaml iriusrisk-tmvs:1.0.0"
+                   - "docker run --rm -v /path/with/yamls:/volume -e CONFIG_FILE=custom iriusrisk-tmvs"
 ```
-
-
-## Customize tests
-
-In case you want to integrate custom tests users can use pytest to execute the suite.
-Make sure you have the required dependencies installed (python, pip, requirements.txt)
-
-Inside /tests there is an example of a custom test file. Please use this template to create your own content.
-
+#### Jenkins
 ```
-python -m pytest -v tests --junitxml=result.xml
+pipeline {
+    agent any
+    stages {
+        stage('Test') {
+            steps {
+                sh "docker run --rm -v /path/with/yamls:/volume -e CONFIG_FILE=custom -e IRIUS_SERVER=<server> -e IRIUS_API_TOKEN=<token> iriusrisk-tmvs"
+            }
+        }
+    }
+}
 ```
-
-

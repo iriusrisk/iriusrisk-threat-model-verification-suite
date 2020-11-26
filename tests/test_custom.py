@@ -4,14 +4,17 @@ from tests.config import setup, check
 
 class TestCustom(unittest.TestCase):
 
+    ### Do not modify this ###
     @classmethod
     def setUpClass(self):
         self.api_token, self.config, self.product_ref, self.api_instance = setup()
 
     def setUp(self):
         self.test_config = check(unittest.TestCase.id(self).rsplit(".")[-1], self.config)
+    ### Do not modify this ###
 
-    # From here you can write your own tests
+    # From here you can write your own tests.
+    # For pytest to detect tests the functions must begin with "test_"
     def test_custom_test(self):
         # TODO: Do test
         pass

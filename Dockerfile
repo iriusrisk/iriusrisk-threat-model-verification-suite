@@ -4,9 +4,10 @@ MAINTAINER Security Team <securityteam@iriusrisk.com>
 
 ADD . /threat
 
-RUN apk add --no-cache python3 git py3-pip nano \
+RUN apk add python3 git py3-pip nano \
 && git clone https://github.com/iriusrisk/iriusrisk-python-client-lib.git \
 && pip3 install iriusrisk-python-client-lib/iriusrisk-python-client-lib \
+&& mkdir /volume \
 && cd threat \
 && pip3 install -r requirements.txt
 

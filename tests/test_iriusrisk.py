@@ -12,12 +12,6 @@ class TestIriusRisk(unittest.TestCase):
     def setUp(self):
         self.test_config = check(unittest.TestCase.id(self).rsplit(".")[-1], self.config)
 
-    def test_template(self):
-        # TODO: Do test
-        pass
-        # Failures are marked with pytest.fail("message")
-        # Skipped tests are marked with pytest.skip("message")
-
     def test_residual_risk_over_risk_threshold(self):
         try:
             riskThreshold = self.test_config["variables"]["RISK_THRESHOLD"]
@@ -29,3 +23,4 @@ class TestIriusRisk(unittest.TestCase):
         if risk_summary.residual_risk > riskThreshold:
             pytest.fail(
                 f"Product {self.product_ref} has risk {risk_summary.residual_risk} and is over the threshold {riskThreshold}")
+

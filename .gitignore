@@ -1,3 +1,5 @@
 .idea
 target
 tests/__pycache__
+/venv
+*.xml

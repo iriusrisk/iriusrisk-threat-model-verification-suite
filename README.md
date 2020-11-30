@@ -6,9 +6,10 @@ This project aims to help users to integrate IriusRisk in their CI/CD environmen
 
 Docker must be installed previously in order to pull the image. 
 ```
-docker pull iriusrisk-tmvs
+docker pull continuumsecurity/iriusrisk-tmvs
 ```
 You can pull the image previously or let Docker handle the pulling when running the container for the first time
+Latest version is 1.0.0 (01/12/2020)
 
 ## How to use
 
@@ -16,9 +17,7 @@ This tool has been conceived to be as easy to configure as possible so there are
 
 ### Option 1: Run one of our predefined configurations
 
-IriusRisk TMVS contains a set of predefined configurations that execute a set of our tests. These configurations are:
-* __risk__: tests related with risk rating analysis
-* other:
+IriusRisk TMVS contains a set of predefined configurations that execute a set of our tests. 
 
 You will need to pass the following parameters to the docker run command:
 * IRIUS_SERVER: IriusRisk instance server ([http|https]://\<host>:\<port>)
@@ -106,8 +105,27 @@ Note that our predefined tests only have the "config" key because they assume th
 
 ## Available tests
 #### Version 1.0.0
-* __test_residual_risk_over_risk_threshold__: outputs a list of products that exceed a risk threshold
+* __test_residual_risk_over_risk_threshold__: shows if the current risk of a product exceed a risk threshold
   * RISK_THRESHOLD: number from 0 to 100. Default value is 50.
+* __test_required_controls_not_implemented__: shows how many required controls are not implemented
+  * PERCENTAGE: maximum percentage allowed until failure. Default value is 50.
+* __test_standard_controls_not_implemented__: shows how many required controls related to a standard are not implemented
+  * STANDARD_REF: standard reference value
+  * PERCENTAGE: maximum percentage allowed until failure. Default value is 50.
+* __test_high_priority_controls_not_implemented__: shows how many controls with high risk are not implemented
+  * HIGH_RISK_VALUE: minimum value for a countermeasure to be of high risk. Default value is 75.
+  * PERCENTAGE: maximum percentage allowed until failure. Default value is 50.
+
+Configurations available are:
+* __risk__: tests related with risk rating analysis
+  * Tests:
+    * test_residual_risk_over_risk_threshold
+* __controls__: tests related with implemented countermeasures
+  * Tests:
+    * test_required_controls_not_implemented
+    * test_high_priority_controls_not_implemented
+
+
   
 ## Examples
 #### GoCD

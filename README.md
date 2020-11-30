@@ -1,6 +1,6 @@
 # IriusRisk Threat Model Verification Suite
 
-This project aims to help users to integrate IriusRisk in their CI/CD environments by providing a Docker image to automate the querying to the threat model.
+This project aims to help users to integrate IriusRisk in their CI/CD environments by providing a Docker image to automate the querying to the threat model. It uses pytest to generate a test report with all the failures found in the process.
 
 ## Requirements
 
@@ -123,9 +123,25 @@ Configurations available are:
   * test_required_controls_not_implemented
   * test_high_risk_controls_not_implemented
 
+#### I miss some tests here that could be very helpful, do I have to do it myself?
 
+Please [reach us](https://iriusrisk.com/contact/) and share your thoughts! We want this tool to be helpful for everyone and your problem today could be a problem for someone tomorrow.
   
 ## Examples
+#### Jenkins
+```
+pipeline {
+    agent any
+    stages {
+        stage('Test') {
+            steps {
+                sh "docker run --rm -v /path/with/yamls:/volume -e CONFIG_FILE=custom -e IRIUS_SERVER=<server> -e IRIUS_API_TOKEN=<token> continuumsecurity/iriusrisk-tmvs"
+            }
+        }
+    }
+}
+```
+
 #### GoCD
 ```
 format_version: 9
@@ -151,16 +167,4 @@ pipelines:
                    - -c
                    - "docker run --rm -v /path/with/yamls:/volume -e CONFIG_FILE=custom continuumsecurity/iriusrisk-tmvs"
 ```
-#### Jenkins
-```
-pipeline {
-    agent any
-    stages {
-        stage('Test') {
-            steps {
-                sh "docker run --rm -v /path/with/yamls:/volume -e CONFIG_FILE=custom -e IRIUS_SERVER=<server> -e IRIUS_API_TOKEN=<token> continuumsecurity/iriusrisk-tmvs"
-            }
-        }
-    }
-}
-```
+

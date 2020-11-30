@@ -8,7 +8,8 @@ Docker must be installed previously in order to pull the image.
 ```
 docker pull continuumsecurity/iriusrisk-tmvs
 ```
-You can pull the image previously or let Docker handle the pulling when running the container for the first time
+You can pull the image using a specific tag that matches the version or use the :latest tag.
+
 Latest version is 1.0.0 (01/12/2020)
 
 ## How to use

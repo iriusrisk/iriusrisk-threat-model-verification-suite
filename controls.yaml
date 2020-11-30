@@ -1,8 +1,8 @@
 config:
   - testName: test_required_controls_not_implemented
     variables:
-      PERCENTAGE: 80
-  - testName: test_high_priority_controls_not_implemented
+      PERCENTAGE: 50
+  - testName: test_high_risk_controls_not_implemented
     variables:
-      HIGH_RISK_VALUE: 70
-      PERCENTAGE: 70
+      HIGH_RISK_VALUE: 75
+      PERCENTAGE: 50

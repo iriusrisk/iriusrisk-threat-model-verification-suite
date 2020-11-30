@@ -112,7 +112,7 @@ Note that our predefined tests only have the "config" key because they assume th
 * __test_standard_controls_not_implemented__: shows how many required controls related to a standard are not implemented
   * STANDARD_REF: standard reference value
   * PERCENTAGE: maximum percentage allowed until failure. Default value is 50.
-* __test_high_priority_controls_not_implemented__: shows how many controls with high risk are not implemented
+* __test_high_risk_controls_not_implemented__: shows how many controls with high risk are not implemented
   * HIGH_RISK_VALUE: minimum value for a countermeasure to be of high risk. Default value is 75.
   * PERCENTAGE: maximum percentage allowed until failure. Default value is 50.
 
@@ -123,7 +123,7 @@ Configurations available are:
 * __controls__: tests related with implemented countermeasures
   * Tests:
     * test_required_controls_not_implemented
-    * test_high_priority_controls_not_implemented
+    * test_high_risk_controls_not_implemented
 
 
   

@@ -77,7 +77,7 @@ class TestIriusRisk(unittest.TestCase):
                 pytest.fail(f"Above percentage: there are {proportion}% countermeasures that applies {standardRef} that are not implemented")
 
 
-    def test_high_priority_controls_not_implemented(self):
+    def test_high_risk_controls_not_implemented(self):
         try:
             percentage = self.test_config["variables"]["PERCENTAGE"]
         except KeyError:

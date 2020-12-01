@@ -14,7 +14,7 @@ RUN apk add python3 git py3-pip nano \
 WORKDIR threat
 CMD find /volume/. -name \*.py -exec cp {} ./tests \; \
 && find /volume/. -name \*.yaml -exec cp {} . \; \
-&& pytest --junitxml=/volume/result.xml
+&& pytest --junitxml=/volume/result.xml --tb=line
 
 
 

@@ -24,11 +24,11 @@ You will need to pass the following parameters to the docker run command:
 * IRIUS_SERVER: IriusRisk instance server ([http|https]://\<host>:\<port>)
 * IRIUS_API_TOKEN: IriusRisk API token from an IriusRisk user
 * PRODUCT_REF: IriusRisk threat model reference
-* CONFIG_FILE: one of the names in this [list](#available-tests-and-configurations)
+* TMVS_CONFIG: one of the names in this [list](#available-tests-and-configurations)
 
 Example:
 ```
-docker run --rm -e IRIUS_SERVER=<server> -e IRIUS_API_TOKEN=<token> -e PRODUCT_REF=<product_ref> -e CONFIG_FILE=<test_configuration> continuumsecurity/iriusrisk-tmvs
+docker run --rm -e IRIUS_SERVER=<server> -e IRIUS_API_TOKEN=<token> -e PRODUCT_REF=<product_ref> -e TMVS_CONFIG=<test_configuration> continuumsecurity/iriusrisk-tmvs
 ```
 
 The result of the execution will be the console output from pytest and a file called result.xml will be generated in /volume folder inside the container.
@@ -40,17 +40,17 @@ If you want to get the result file you will need to configure a volume. See the 
 If our predefined configurations are not enough and you want to tune your own configurations you need to define a volume to pass the configuration file to the container. 
 
 ```
-docker run --rm -v /path/to/yamls:/volume -e CONFIG_FILE=<custom_name> continuumsecurity/iriusrisk-tmvs
+docker run --rm -v /path/to/yamls:/volume -e TMVS_CONFIG=<custom_name> continuumsecurity/iriusrisk-tmvs
 ```
 Note that "/path/to/yamls" is a folder in your Docker host system and must be changed with the absolute path of your configuration folder.
-It is also mandatory to pass the name of the yaml file to execute with the CONFIG_FILE environment variable.
+It is also mandatory to pass the name of the yaml file to execute with the TMVS_CONFIG environment variable.
 User folder must be linked with /volume using the option "-v /path/to/yamls:/volume".
 
 __Example__: suppose that you have a folder called "/home/user/yamlFiles" that contains test1.yaml, test2.yaml and test3.yaml
 
 You can then run the following:
 ```
-docker run --rm -v /home/user/yamlFiles:/volume -e CONFIG_FILE=test1 continuumsecurity/iriusrisk-tmvs
+docker run --rm -v /home/user/yamlFiles:/volume -e TMVS_CONFIG=test1 continuumsecurity/iriusrisk-tmvs
 ```
 
 Please check [here](#yaml-configuration) to see how to configure the Yaml file.
@@ -109,7 +109,16 @@ Tests are executed for one project. Users must indicate the project reference in
 Note that our predefined tests only have the "config" key because they assume the other parameters will come from environment variables.
 
 ## Available tests and configurations
-#### Version 1.0.0
+#### Available configurations
+
+Configurations available are:
+* __risk__: tests related with risk rating analysis
+  * test_residual_risk_over_risk_threshold
+* __controls__: tests related with implemented countermeasures
+  * test_required_controls_not_implemented
+  * test_high_risk_controls_not_implemented
+
+#### Available tests
 * __test_residual_risk_over_risk_threshold__: shows if the current risk of a product exceed a risk threshold
   * RISK_THRESHOLD: number from 0 to 100. 
     * Default value is 50.
@@ -126,12 +135,7 @@ Note that our predefined tests only have the "config" key because they assume th
   * PERCENTAGE: maximum percentage allowed until failure. 
     * Default value is 50.
 
-Configurations available are:
-* __risk__: tests related with risk rating analysis
-  * test_residual_risk_over_risk_threshold
-* __controls__: tests related with implemented countermeasures
-  * test_required_controls_not_implemented
-  * test_high_risk_controls_not_implemented
+
 
 #### I miss some tests here that could be very helpful, do I have to do it myself?
 
@@ -145,7 +149,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh "docker run --rm -v /path/with/yamls:/volume -e CONFIG_FILE=custom -e IRIUS_SERVER=<server> -e IRIUS_API_TOKEN=<token> continuumsecurity/iriusrisk-tmvs"
+                sh "docker run --rm -v /path/with/yamls:/volume -e TMVS_CONFIG=custom -e IRIUS_SERVER=<server> -e IRIUS_API_TOKEN=<token> continuumsecurity/iriusrisk-tmvs"
             }
         }
     }
@@ -175,6 +179,6 @@ pipelines:
                   arguments:
                    - -e
                    - -c
-                   - "docker run --rm -v /path/with/yamls:/volume -e CONFIG_FILE=custom continuumsecurity/iriusrisk-tmvs"
+                   - "docker run --rm -v /path/with/yamls:/volume -e TMVS_CONFIG=custom continuumsecurity/iriusrisk-tmvs"
 ```
 

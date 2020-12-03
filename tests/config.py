@@ -10,7 +10,7 @@ def setup():
     # Load the configuration file. Fails the test if no config have been found
     filename = ""
     try:
-        filename = os.environ['CONFIG_FILE'] + ".yaml"
+        filename = os.environ['TMVS_CONFIG'] + ".yaml"
     except KeyError:
         pytest.fail("No configuration found. Please indicate configuration in CONFIG_FILE environment variable")
 

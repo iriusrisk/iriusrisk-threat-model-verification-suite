@@ -121,7 +121,7 @@ Configurations available are:
 #### Available tests
 * __test_residual_risk_over_risk_threshold__: shows if the current risk of a product exceed a risk threshold
   * RISK_THRESHOLD: number from 0 to 100. 
-    * Default value is 50.
+    * Default value is 75.
 * __test_required_controls_not_implemented__: shows how many required controls are not implemented
   * PERCENTAGE: maximum percentage allowed until failure. 
     * Default value is 50.

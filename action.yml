@@ -1,0 +1,31 @@
+name: IriusRisk TMVS Action
+description: This is a simple GitHub Actions to run IriusRisk TMVS
+
+author: Security Team
+
+branding:
+  color: green
+  icon: activity
+
+inputs:
+  IRIUS_SERVER:
+    required: true
+    description: IriusRisk server instance
+  IRIUS_API_TOKEN:
+    required: true
+    description: IriusRisk API Token
+  PRODUCT_REF:
+    required: true
+    description: product reference
+  TMVS_CONFIG:
+    required: true
+    description: config to use
+
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    IRIUS_SERVER: ${{ inputs.IRIUS_SERVER }}
+    IRIUS_API_TOKEN: ${{ inputs.IRIUS_API_TOKEN }}
+    PRODUCT_REF: ${{ inputs.PRODUCT_REF }}
+    TMVS_CONFIG: ${{ inputs.TMVS_CONFIG }}

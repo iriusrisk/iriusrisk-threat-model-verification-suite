@@ -185,3 +185,23 @@ pipelines:
                    - "docker run --rm -v /path/with/yamls:/volume -e TMVS_CONFIG=custom continuumsecurity/iriusrisk-tmvs"
 ```
 
+#### Github Actions
+```
+name: IriusRisk TMVS Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: a
+        run: docker run --rm -e IRIUS_SERVER=${{ secrets.IRIUS_SERVER }} -e IRIUS_API_TOKEN=${{ secrets.IRIUS_API_TOKEN }} -e PRODUCT_REF=${{ secrets.PRODUCT_REF }} -e TMVS_CONFIG=${{ secrets.TMVS_CONFIG }} continuumsecurity/iriusrisk-tmvs:latest
+    
+```

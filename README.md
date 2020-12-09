@@ -26,9 +26,12 @@ You will need to pass the following parameters to the docker run command:
 * PRODUCT_REF: IriusRisk threat model reference
 * TMVS_CONFIG: one of the names in this [list](#available-tests-and-configurations)
 
-Example:
 ```
 docker run --rm -e IRIUS_SERVER=<server> -e IRIUS_API_TOKEN=<token> -e PRODUCT_REF=<product_ref> -e TMVS_CONFIG=<test_configuration> continuumsecurity/iriusrisk-tmvs
+```
+Example:
+```
+docker run --rm -e IRIUS_SERVER=http://myserver:8080 -e IRIUS_API_TOKEN=13084772-ef51-40f1-9d74-eadd4953fb10 -e PRODUCT_REF=my-product-ref -e TMVS_CONFIG=risk continuumsecurity/iriusrisk-tmvs
 ```
 
 The result of the execution will be the console output from pytest and a file called result.xml will be generated in /volume folder inside the container.

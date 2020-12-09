@@ -201,7 +201,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: a
+      - name: run suite
         run: docker run --rm -e IRIUS_SERVER=${{ secrets.IRIUS_SERVER }} -e IRIUS_API_TOKEN=${{ secrets.IRIUS_API_TOKEN }} -e PRODUCT_REF=${{ secrets.PRODUCT_REF }} -e TMVS_CONFIG=${{ secrets.TMVS_CONFIG }} continuumsecurity/iriusrisk-tmvs:latest
     
 ```

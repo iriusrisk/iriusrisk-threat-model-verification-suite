@@ -1,9 +1,9 @@
-# IriusRisk Threat Model Verification Suite
+<img width="200" src="https://iriusrisk.com/wp-content/uploads/2020/10/logo-iriusrisk.svg">
 
+# IriusRisk Threat Model Verification Suite
 This project aims to support users with the integratation of IriusRisk into their CI/CD environments. A Docker image is used to automate the threat model querying. Pytest is used to generate a failure test report from the process.
 
 ## Requirements
-
 Docker must be previously installed in order to pull the image. 
 ```
 docker pull continuumsecurity/iriusrisk-tmvs
@@ -13,11 +13,9 @@ You can pull the image using a specific tag that matches the version or use the 
 Latest version is 1.0.0 (01/12/2020)
 
 ## How to use
-
 The tool is easily configured, there are three ways to use it:
 
 ### Option 1: Run one of our predefined configurations
-
 IriusRisk TMVS contains a set of predefined configurations that execute a set of our tests. 
 
 You will need to pass the following parameters to the docker run command:

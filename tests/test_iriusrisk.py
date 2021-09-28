@@ -13,6 +13,7 @@ class TestIriusRisk(unittest.TestCase):
         self.test_config = check(unittest.TestCase.id(self).rsplit(".")[-1], self.config)
 
     def test_residual_risk_over_risk_threshold(self):
+        """Shows if the current risk of a product exceed a risk threshold"""
         try:
             riskThreshold = self.test_config["variables"]["RISK_THRESHOLD"]
         except KeyError:
@@ -26,6 +27,7 @@ class TestIriusRisk(unittest.TestCase):
 
 
     def test_required_controls_not_implemented(self):
+        """Shows how many required controls are not implemented"""
         try:
             percentage = int(self.test_config["variables"]["PERCENTAGE"])
         except KeyError:
@@ -48,6 +50,7 @@ class TestIriusRisk(unittest.TestCase):
 
 
     def test_standard_controls_not_implemented(self):
+        """Shows how many required controls related to a standard are not implemented"""
         try:
             standardRef = self.test_config["variables"]["STANDARD_REF"]
         except KeyError:
@@ -78,6 +81,7 @@ class TestIriusRisk(unittest.TestCase):
 
 
     def test_high_risk_controls_not_implemented(self):
+        """Shows how many controls with high risk are not implemented"""
         try:
             percentage = self.test_config["variables"]["PERCENTAGE"]
         except KeyError:

@@ -1,10 +1,10 @@
-# IriusRisk Threat Model Verification Suite
+<img width="200" src="https://iriusrisk.com/wp-content/uploads/2020/10/logo-iriusrisk.svg">
 
-This project aims to help users to integrate IriusRisk in their CI/CD environments by providing a Docker image to automate the querying to the threat model. It uses pytest to generate a test report with all the failures found in the process.
+# IriusRisk Threat Model Verification Suite
+This project aims to support users with the integratation of IriusRisk into their CI/CD environments. A Docker image is used to automate the threat model querying. Pytest is used to generate a failure test report from the process.
 
 ## Requirements
-
-Docker must be installed previously in order to pull the image. 
+Docker must be previously installed in order to pull the image. 
 ```
 docker pull continuumsecurity/iriusrisk-tmvs
 ```
@@ -13,11 +13,9 @@ You can pull the image using a specific tag that matches the version or use the 
 Latest version is 1.0.0 (01/12/2020)
 
 ## How to use
-
-This tool has been conceived to be as easy to configure as possible so there are three ways to use it:
+The tool is easily configured, there are three ways to use it:
 
 ### Option 1: Run one of our predefined configurations
-
 IriusRisk TMVS contains a set of predefined configurations that execute a set of our tests. 
 
 You will need to pass the following parameters to the docker run command:
@@ -34,8 +32,8 @@ Example:
 docker run --rm -e IRIUS_SERVER=http://myserver:8080 -e IRIUS_API_TOKEN=13084772-ef51-40f1-9d74-eadd4953fb10 -e PRODUCT_REF=my-product-ref -e TMVS_CONFIG=risk continuumsecurity/iriusrisk-tmvs
 ```
 
-The result of the execution will be the console output from pytest and a file called result.xml will be generated in /volume folder inside the container.
-If you want to get the result file you will need to configure a volume. See the next step to see how can you do it.
+Once the commands have been executed there will be a console output from pytest and a file generated called result.xml which will be stored in the /volume folder inside the container.
+If you want to obtain the result file you will need to configure the appropiate volume. See the next step to see how to do it.
 
 
 ### Option 2: Create and run your own configuration
@@ -63,7 +61,7 @@ __Information for Windows users__: you may need to replace "/path/to/yamls" with
 
 ### Option 3: Create your own tests
 
-In case you want to write your own tests you should download the repository directly.
+In the case that you want to write your own tests you should directly download the repository.
 
 Ensure you have at least Python 3.7 installed as well as Pip before proceeding with the following steps:
 ```
@@ -78,16 +76,16 @@ pip install -r requirements.txt
 # To execute the tests launch the following command
 pytest --junitxml=result.xml --tb=line
 ```
-You may want to change some of the steps if you want to use a virtual environment like venv.
+You may have to change some of the steps if you want to use a virtual environment like venv.
 
-To create your tests you will find a template ready to be used called test_custom.py inside /tests.
-Keep in mind that this template uses config.py functions to avoid repeating configurations, so you should focus on create test functions using the variables inside self variable.
+To create your tests you will find a pre-prepared template ready for use called test_custom.py inside folder /tests.
+Keep in mind that this template uses config.py functions to avoid repeating configurations, so you should focus on creating test functions using the variables inside the self variable.
 
 
 
 ## Yaml configuration
 
-This is a configuration file example in which you can see how the format is:
+This is a configuration file example showing the format:
 
 ```
 server: http://host:8080
@@ -106,15 +104,14 @@ config:
       RISK_THRESHOLD: 70
 ```
 "server" and "apiToken" must be changed to the corresponding ones.
-Tests are executed for one project. Users must indicate the project reference in the "projectRef" parameter.
+Tests are executed for a specific project. Users must indicate the project reference in the "productRef" parameter.
 "testName" parameters must be specified with the actual names of the tests.
 
-Note that our predefined tests only have the "config" key because they assume the other parameters will come from environment variables.
+Note that our predefined tests only have the "config" key because they assume the other parameters will come from the environment variables.
 
-## Available tests and configurations
+## Available configurations and Tests
 #### Available configurations
 
-Configurations available are:
 * __risk__: tests related with risk rating analysis
   * test_residual_risk_over_risk_threshold
 * __controls__: tests related with implemented countermeasures
@@ -122,7 +119,7 @@ Configurations available are:
   * test_high_risk_controls_not_implemented
 
 #### Available tests
-* __test_residual_risk_over_risk_threshold__: shows if the current risk of a product exceed a risk threshold
+* __test_residual_risk_over_risk_threshold__: shows if the current risk of a product exceeds a risk threshold
   * RISK_THRESHOLD: number from 0 to 100. 
     * Default value is 75.
 * __test_required_controls_not_implemented__: shows how many required controls are not implemented
@@ -140,7 +137,7 @@ Configurations available are:
 
 
 
-#### I miss some tests here that could be very helpful, do I have to do it myself?
+#### I missed some tests here that could be very helpful, do I have to do it myself?
 
 Please [reach us](https://iriusrisk.com/contact/) and share your thoughts! We want this tool to be helpful for everyone and your problem today could be a problem for someone tomorrow.
   
